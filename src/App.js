@@ -29,6 +29,7 @@ function SimpleForm() {
     : "http://localhost";
   const [fileName, setFileName] = useState("");
   const [supplier, setSupplier] = useState("");
+  const [supplierDescription, setSupplierDescription] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -66,6 +67,20 @@ function SimpleForm() {
 
   const handleSupplierChange = (event) => {
     setSupplier(event.target.value);
+    let supplierDescription;
+    switch (event.target.value) {
+      case "fritolay":
+        supplierDescription =
+          "Currently our bot is able to inteliigently search for products on Frito Lay, assess whether the product exists, and add it to cart.";
+        break;
+      case "kehe":
+        supplierDescription =
+          "Currently our bot is able to search for products with UPC number on KeHe, assess whether the product exists, and add it to cart.";
+        break;
+      default:
+        supplierDescription = "";
+    }
+    setSupplierDescription(supplierDescription);
   };
 
   return (
@@ -106,6 +121,7 @@ function SimpleForm() {
                   <MenuItem value={"kehe"}>KeHe</MenuItem>
                 </Select>
               </FormControl>
+              {supplierDescription && <p>{supplierDescription}</p>}
               <TextField
                 id="username"
                 type="username"
