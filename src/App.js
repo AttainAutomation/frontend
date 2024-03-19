@@ -13,7 +13,7 @@ import {
   InputLabel,
   MenuItem,
   FormControl,
-  Select
+  Select,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -24,6 +24,9 @@ const darkTheme = createTheme({
 });
 
 function SimpleForm() {
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost";
   const [fileName, setFileName] = useState("");
   const [supplier, setSupplier] = useState("");
 
@@ -53,7 +56,7 @@ function SimpleForm() {
     formData.append("password", password);
     formData.append("csv", file);
 
-    fetch(`http://localhost/attain/${supplier}`, {
+    fetch(`${baseUrl}/attain/${supplier}`, {
       method: "POST",
       body: formData,
     }).then((response) => {
@@ -98,10 +101,7 @@ function SimpleForm() {
               />
               <FormControl fullWidth>
                 <InputLabel>Supplier</InputLabel>
-                <Select
-                  value={supplier}
-                  onChange={handleSupplierChange}
-                >
+                <Select value={supplier} onChange={handleSupplierChange}>
                   <MenuItem value={"fritolay"}>Frito Lay</MenuItem>
                   <MenuItem value={"kehe"}>KeHe</MenuItem>
                 </Select>
