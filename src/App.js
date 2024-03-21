@@ -114,7 +114,7 @@ function SimpleForm() {
                 variant="outlined"
                 sx={styles.textField}
               />
-              <p>{supplierDescription ? supplierDescription : ""}</p>
+              {supplierDescription && <p>{supplierDescription}</p>}
               <FormControl fullWidth>
                 <InputLabel>Supplier</InputLabel>
                 <Select value={supplier} onChange={handleSupplierChange}>
