@@ -114,6 +114,7 @@ function SimpleForm() {
                 variant="outlined"
                 sx={styles.textField}
               />
+              <p>{supplierDescription ? supplierDescription : ""}</p>
               <FormControl fullWidth>
                 <InputLabel>Supplier</InputLabel>
                 <Select value={supplier} onChange={handleSupplierChange}>
@@ -121,7 +122,6 @@ function SimpleForm() {
                   <MenuItem value={"kehe"}>KeHe</MenuItem>
                 </Select>
               </FormControl>
-              {supplierDescription && <p>{supplierDescription}</p>}
               <TextField
                 id="username"
                 type="username"
