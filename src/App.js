@@ -26,7 +26,9 @@ const darkTheme = createTheme({
 });
 
 function SimpleForm() {
-  const baseUrl = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : "http://localhost";
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost";
   const [fileName, setFileName] = useState("");
   const [supplier, setSupplier] = useState("");
   const [supplierDescription, setSupplierDescription] = useState("");
@@ -78,10 +80,12 @@ function SimpleForm() {
     let supplierDescription;
     switch (event.target.value) {
       case "fritolay":
-        supplierDescription = "Currently our bot is able to intelligently search for products on Frito Lay, assess whether the product exists, and add it to cart.";
+        supplierDescription =
+          "Currently our bot is able to intelligently search for products on Frito Lay, assess whether the product exists, and add it to cart.";
         break;
       case "kehe":
-        supplierDescription = "Currently our bot is able to search for products with UPC number on KeHe, assess whether the product exists, and add it to cart.";
+        supplierDescription =
+          "Currently our bot is able to search for products with UPC number on KeHe, assess whether the product exists, and add it to cart.";
         break;
       default:
         supplierDescription = "";
@@ -103,7 +107,8 @@ function SimpleForm() {
               <br />
               (2) JoshyTrain (AI Bot) will start adding items to cart
               <br />
-              (3) You will be emailed a new csv, where you can review and submit the completed cart
+              (3) You will be emailed a new csv, where you can review and submit
+              the completed cart
             </p>
             <Box
               component="form"
@@ -180,7 +185,11 @@ function SimpleForm() {
                 autoHideDuration={6000}
                 onClose={() => setFormSubmitted(false)}
               >
-                <Alert onClose={() => setFormSubmitted(false)} severity="success" sx={{ width: '100%' }}>
+                <Alert
+                  onClose={() => setFormSubmitted(false)}
+                  severity="success"
+                  sx={{ width: "100%" }}
+                >
                   Form submitted successfully!
                 </Alert>
               </Snackbar>
