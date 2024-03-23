@@ -32,7 +32,7 @@ function SimpleForm() {
   const [fileName, setFileName] = useState("");
   const [supplier, setSupplier] = useState("");
   const [supplierDescription, setSupplierDescription] = useState("");
-  const [formSubmitted, setFormSubmitted] = useState(false); // State to manage form submission state
+  const [formSubmitStatus, setFormSubmitStatus] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -64,14 +64,16 @@ function SimpleForm() {
       method: "POST",
       body: formData,
     }).then((response) => {
-      console.log(response);
-      setFormSubmitted(true); // Update form submission state
-      // Reset form fields
-      setFileName("");
-      setSupplier("");
-      setSupplierDescription("");
-      event.target.reset(); // Reset the form directly
-      setTimeout(() => setFormSubmitted(false), 5000); // Hide the notification after 5 seconds
+      if (response.status !== 200) {
+        setFormSubmitStatus("error");
+      } else {
+        setFormSubmitStatus("success");
+        setFileName("");
+        setSupplier("");
+        setSupplierDescription("");
+        event.target.reset();
+      }
+      setTimeout(() => setFormSubmitStatus(""), 5000);
     });
   };
 
@@ -179,18 +181,20 @@ function SimpleForm() {
                 Submit
               </Button>
             </Box>
-            {formSubmitted && (
+            {formSubmitStatus && (
               <Snackbar
-                open={formSubmitted}
+                open={formSubmitStatus}
                 autoHideDuration={6000}
-                onClose={() => setFormSubmitted(false)}
+                onClose={() => setFormSubmitStatus("")}
               >
                 <Alert
-                  onClose={() => setFormSubmitted(false)}
-                  severity="success"
+                  onClose={() => setFormSubmitStatus("")}
+                  severity={formSubmitStatus}
                   sx={{ width: "100%" }}
                 >
-                  Form submitted successfully!
+                  {formSubmitStatus == "success"
+                    ? "Form submitted successfully!"
+                    : "Form submission failed!"}
                 </Alert>
               </Snackbar>
             )}
