@@ -14,6 +14,8 @@ import {
   MenuItem,
   FormControl,
   Select,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -24,12 +26,11 @@ const darkTheme = createTheme({
 });
 
 function SimpleForm() {
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost";
+  const baseUrl = process.env.REACT_APP_BASE_URL ? process.env.REACT_APP_BASE_URL : "http://localhost";
   const [fileName, setFileName] = useState("");
   const [supplier, setSupplier] = useState("");
   const [supplierDescription, setSupplierDescription] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false); // State to manage form submission state
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -39,6 +40,7 @@ function SimpleForm() {
       setFileName("");
     }
   };
+
   const handleFileClear = () => {
     setFileName("");
   };
@@ -49,7 +51,6 @@ function SimpleForm() {
     const username = event.target.username.value;
     const password = event.target.password.value;
     const file = event.target.file.files[0];
-    console.log(file);
 
     const formData = new FormData();
     formData.append("email", email);
@@ -62,6 +63,13 @@ function SimpleForm() {
       body: formData,
     }).then((response) => {
       console.log(response);
+      setFormSubmitted(true); // Update form submission state
+      // Reset form fields
+      setFileName("");
+      setSupplier("");
+      setSupplierDescription("");
+      event.target.reset(); // Reset the form directly
+      setTimeout(() => setFormSubmitted(false), 5000); // Hide the notification after 5 seconds
     });
   };
 
@@ -70,12 +78,10 @@ function SimpleForm() {
     let supplierDescription;
     switch (event.target.value) {
       case "fritolay":
-        supplierDescription =
-          "Currently our bot is able to inteliigently search for products on Frito Lay, assess whether the product exists, and add it to cart.";
+        supplierDescription = "Currently our bot is able to intelligently search for products on Frito Lay, assess whether the product exists, and add it to cart.";
         break;
       case "kehe":
-        supplierDescription =
-          "Currently our bot is able to search for products with UPC number on KeHe, assess whether the product exists, and add it to cart.";
+        supplierDescription = "Currently our bot is able to search for products with UPC number on KeHe, assess whether the product exists, and add it to cart.";
         break;
       default:
         supplierDescription = "";
@@ -97,8 +103,7 @@ function SimpleForm() {
               <br />
               (2) JoshyTrain (AI Bot) will start adding items to cart
               <br />
-              (3) You will be emailed a new csv, where you can review and submit
-              the completed cart
+              (3) You will be emailed a new csv, where you can review and submit the completed cart
             </p>
             <Box
               component="form"
@@ -152,8 +157,6 @@ function SimpleForm() {
               </Button>
               {fileName && (
                 <Box sx={{ display: "flex", alignItems: "center" }}>
-                  {" "}
-                  {/* Ensure this is set to 'flex' */}
                   <Typography sx={{ wordBreak: "break-all", marginRight: 1 }}>
                     {fileName}
                   </Typography>
@@ -171,6 +174,17 @@ function SimpleForm() {
                 Submit
               </Button>
             </Box>
+            {formSubmitted && (
+              <Snackbar
+                open={formSubmitted}
+                autoHideDuration={6000}
+                onClose={() => setFormSubmitted(false)}
+              >
+                <Alert onClose={() => setFormSubmitted(false)} severity="success" sx={{ width: '100%' }}>
+                  Form submitted successfully!
+                </Alert>
+              </Snackbar>
+            )}
           </CardContent>
         </Card>
       </Box>
@@ -202,9 +216,6 @@ const styles = {
   },
   uploadButton: {
     margin: "8px 0",
-  },
-  closeButton: {
-    padding: "0",
   },
   submitButton: {
     width: "100%",
