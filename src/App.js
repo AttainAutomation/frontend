@@ -26,9 +26,10 @@ const darkTheme = createTheme({
 });
 
 function SimpleForm() {
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost";
+  // const baseUrl = process.env.REACT_APP_BASE_URL
+  //   ? process.env.REACT_APP_BASE_URL
+  //   : "http://localhost";
+  const baseUrl = "http://localhost";
   const [fileName, setFileName] = useState("");
   const [supplier, setSupplier] = useState("");
   const [supplierDescription, setSupplierDescription] = useState("");
@@ -89,6 +90,10 @@ function SimpleForm() {
         supplierDescription =
           "Currently our bot is able to search for products with UPC number on KeHe, assess whether the product exists, and add it to cart.";
         break;
+      case "coremark":
+        supplierDescription =
+          "Currently our bot is able to search for products with UPC number on Coremark, assess whether the product exists, and add it to cart.";
+        break;
       default:
         supplierDescription = "";
     }
@@ -130,6 +135,7 @@ function SimpleForm() {
               <FormControl fullWidth>
                 <InputLabel>Supplier</InputLabel>
                 <Select value={supplier} onChange={handleSupplierChange}>
+                  <MenuItem value={"coremark"}>Coremark</MenuItem>
                   <MenuItem value={"fritolay"}>Frito Lay</MenuItem>
                   <MenuItem value={"kehe"}>KeHe</MenuItem>
                 </Select>
